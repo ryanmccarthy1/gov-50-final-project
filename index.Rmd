@@ -12,3 +12,17 @@ output:
 ## Project thoughts
 
 My original idea was not possible, so I decided to switch my final project to an analysis of election deniers and median income in their congressional district.  I think this has the potential to be a very interesting final project because I actually have no idea what the outcome will be.  Currently, I am deciding whether I should analyze districts that currently have election deniers in office, districts that have election deniers and districts that have election deniers who are likely to win, or all districts that have election deniers on the ballot.  I think it might be more plausible to go with the second option of districts with current election deniers and deniers who are likely to win their election if they are not incumbents.  Many districts will likely have deniers on the ballot but some may have non-existent chances against high-profile incumbents who will lose by many percentage points, negating the purpose of my analysis.  
+
+## Proposal
+
+Are election denying candidates more prevalent in high or low-income Congressional districts?  In this project, I plan to examine the income levels of Congressional districts which have a candidate on the ballot who fully denied the 2020 election and has a higher than 70% chance of winning their 2022 midterm.  I hypothesize that districts who have election deniers on the ballot will have lower median incomes relative to districts that do not have election-denying candidates.  I expect that it is more likely for the districts with election deniers to have lower median incomes because President Trump targeted low-income, less educated areas during his campaigns which eventaully resulted in him being elected.  My sample is comprised of Census data and 538 data.  My explanatory variable is the median income of Congressional districts.  The outcome variable is existance of an election denier candidate who is likely to win in 2022.  This variable is coded as "Stance" and has six different stances: "Fully Denied", "Raised Questions", "Fully Accepted", "Accepted with Reservations", "Avoided Answering" and "No Comment".  For the sake of this study, I will only be using the candidates who "Fully Denied".  Once I have filtered the candidates who fully denied, I will have to filter again by Congressional race and likelihood to win.  If I find that the average median income for districts with an election denier likely to win, this would provide support for my hypothesis.  If I find that the average median income is higher in districts with an election denier candidate, this would not provide support for my hypothesis.  
+
+```{r}
+library(tidyverse)
+election_deniers <- read_csv("election_deniers.csv")
+
+election_deniers |>
+  filter(Office == "Representative")
+
+```
+
