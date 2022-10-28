@@ -1,7 +1,7 @@
 ---
 title: "Gov 50 Final Project"
 author: "Ryan McCarthy"
-description: "Not really sure yet"
+description: "Election Deniers and Congressional District Income"
 output:
   distill::distill_article:
     self_contained: false
