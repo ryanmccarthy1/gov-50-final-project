@@ -38,4 +38,11 @@ graph
   
 
 ```
+```{r}
+deniers_mean <- election_deniers |>
+  group_by(result) |>
+  summarize(mean_med_income = mean(median_household_income))
+deniers_mean
+```
+
 
