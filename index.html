@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["election_deniers.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["election_deniers.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1526,26 +1526,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
 <span><span class='va'>election_deniers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"election_deniers.csv"</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>election_deniers</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>Office</span> <span class='op'>==</span> <span class='st'>"Representative"</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>election_deniers</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>result <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>win</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"Won"</span>, <span class='st'>"Lost"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>graph</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span><span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>result</span>,</span>
+<span>                    y <span class='op'>=</span> <span class='va'>median_household_income</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_boxplot.html'>geom_boxplot</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"District Income Distribution of Election Denier Candidates"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Election Result"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Median Household Income"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>graph</span></span></code></pre>
 </div>
-<pre><code># A tibble: 424 × 9
-   Candidate    Incum…¹ State Office Distr…² Stance Source URL   Note 
-   &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;
- 1 Jerry Carl   Yes     Alab… Repre… 1       Fully… Congr… http… &lt;NA&gt; 
- 2 Barry Moore  Yes     Alab… Repre… 2       Fully… Congr… http… &lt;NA&gt; 
- 3 Mike Rogers  Yes     Alab… Repre… 3       Fully… Congr… http… &lt;NA&gt; 
- 4 Robert Ader… Yes     Alab… Repre… 4       Fully… Congr… http… &lt;NA&gt; 
- 5 Dale Strong  No      Alab… Repre… 5       Fully… Faceb… http… &lt;NA&gt; 
- 6 Gary Palmer  Yes     Alab… Repre… 6       Fully… Congr… http… &lt;NA&gt; 
- 7 Beatrice Ni… No      Alab… Repre… 7       Raise… Email… &lt;NA&gt;  &lt;NA&gt; 
- 8 Nick Begich  No      Alas… Repre… At-Lar… Accep… Email… &lt;NA&gt;  &lt;NA&gt; 
- 9 Sarah Palin  No      Alas… Repre… At-Lar… Fully… Alask… http… &lt;NA&gt; 
-10 David Schwe… Yes     Ariz… Repre… 1       Fully… Congr… http… &lt;NA&gt; 
-# … with 414 more rows, and abbreviated variable names ¹​Incumbent,
-#   ²​District</code></pre>
+<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
