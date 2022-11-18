@@ -1555,7 +1555,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 1 Lost            77189.
 2 Won             68262.</code></pre>
 </div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>win</span> <span class='op'>~</span> <span class='va'>median_income_k</span>, data <span class='op'>=</span> <span class='va'>election_deniers</span><span class='op'>)</span></span>
+<span><span class='va'>fit</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = win ~ median_income_k, data = election_deniers)
+
+Coefficients:
+    (Intercept)  median_income_k  
+       0.950704        -0.005871  </code></pre>
+</div>
+<p>The intercept means that if there were districts with no income, the Republican candidate would have a 95% chance of winning the election. For every thousand dollar increase in household income, the odds that the Republican wins the election decreases by 0.5%, holding all other factors constant. Since we are doing this analysis with a binary variable, we have a smaller difference in means.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

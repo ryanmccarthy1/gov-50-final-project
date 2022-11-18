@@ -44,5 +44,11 @@ deniers_mean <- election_deniers |>
   summarize(mean_med_income = mean(median_household_income))
 deniers_mean
 ```
+```{r}
+fit <- lm(win ~ median_income_k, data = election_deniers)
+fit
+```
 
+
+The intercept means that if there were districts with no income, the Republican candidate would have a 95% chance of winning the election.  For every thousand dollar increase in household income, the odds that the Republican wins the election decreases by 0.5%, holding all other factors constant.  Since we are doing this analysis with a binary variable, we have a smaller difference in means. 
 
