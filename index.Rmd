@@ -6,25 +6,51 @@ output:
   distill::distill_article:
     self_contained: false
 ---
-
-
-
-## Project thoughts
-
-My original idea was not possible, so I decided to switch my final project to an analysis of election deniers and median income in their congressional district.  I think this has the potential to be a very interesting final project because I actually have no idea what the outcome will be.  Currently, I am deciding whether I should analyze districts that currently have election deniers in office, districts that have election deniers and districts that have election deniers who are likely to win, or all districts that have election deniers on the ballot.  I think it might be more plausible to go with the second option of districts with current election deniers and deniers who are likely to win their election if they are not incumbents.  Many districts will likely have deniers on the ballot but some may have non-existent chances against high-profile incumbents who will lose by many percentage points, negating the purpose of my analysis.  
-
-## Proposal
-
-Are election denying candidates more prevalent in high or low-income Congressional districts?  In this project, I plan to examine the income levels of Congressional districts which have a candidate on the ballot who fully denied the 2020 election and has a higher than 70% chance of winning their 2022 midterm.  I hypothesize that districts who have election deniers on the ballot will have lower median incomes relative to districts that do not have election-denying candidates.  I expect that it is more likely for the districts with election deniers to have lower median incomes because President Trump targeted low-income, less educated areas during his campaigns which eventaully resulted in him being elected.  My sample is comprised of Census data and 538 data.  My explanatory variable is the median income of Congressional districts.  The outcome variable is existance of an election denier candidate who is likely to win in 2022.  This variable is coded as "Stance" and has six different stances: "Fully Denied", "Raised Questions", "Fully Accepted", "Accepted with Reservations", "Avoided Answering" and "No Comment".  For the sake of this study, I will only be using the candidates who "Fully Denied".  Once I have filtered the candidates who fully denied, I will have to filter again by Congressional race and likelihood to win.  If I find that the average median income for districts with an election denier likely to win, this would provide support for my hypothesis.  If I find that the average median income is higher in districts with an election denier candidate, this would not provide support for my hypothesis. 
-
 ```{r}
 library(tidyverse)
 election_deniers <- read_csv("election_deniers.csv")
+```
 
+
+
+## Introduction
+
+My original idea was not possible, so I decided to switch my final project to an analysis of election deniers and median income in their congressional district.  My research question is are election-denying candidates more likely to win in high or low-income Congressional districts?  This was a very interesting research question for me because I had no idea what the outcome of the analysis would be.  My hypothesis is that election deniers are more likely to win in low-income districts as opposed to high-income districts.  This analysis was very interesting to me because I was very unsure that there would be any sort of relationship between congressional district income and support for election-denying candidates.  
+
+## Data
+
+My data source for the project was a dataset that I found on 538 which included lots of information about the candidates, including what district they were running in and their stance on the validity of the 2020 presidential election.  This dataset did not have information about district income so I had to find and manually input the median income for each congressional district.  This took forever.  Additionally, I coded in a variable of the extremity of election denying based on the information provided about each of the candidates in the dataset.  The dependent variable for this experiment was whether the candidate won or lost and the independent variable was the median household income in the congressional district.  The independent variable was measured by the 2021 American Community Survey in their yearly survey.  The dependent variable was measured by me, as I manually input whether or not the candidate won their congressional race after the 2022 midterm elections.  
+
+```{r}
 election_deniers <- election_deniers |>
   mutate(result = if_else(win == 1, "Won", "Lost"))
 
-graph <- election_deniers|>
+dv_bar <- ggplot(data = election_deniers, 
+                 mapping = aes(x = result)) +
+  geom_bar() +
+  labs(x = "Result of Election",
+       y = "Number of Election-Denying Candidates",
+       title = "How Many Election-Deniers Won Their Congressional Race?")
+dv_bar
+```
+
+## Results
+
+```{r}
+fit <- lm(win ~ median_income_k + extremity, data = election_deniers)
+fit
+
+modelsummary::modelsummary(fit,
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"))
+```
+
+The intercept of my regression is 0.886, meaning that the election-denying candidate would have a 88.6% chance of winning the election if the median household income in their district was $0 and they did had no comment on the results of the 2020 presidential election.  From the regression, I found that for every thousand dollars of household income, the Republican candidate becomes 0.5% less likely to win the election.  Additionally, for every one unit decrease in acceptance of the election, there was a 7.2% decrease in win percentage for the Republican candidates.  The results of the regression give p-values of <0.001 and 0.041 for the median income and extremity variables respectively.  Since these p-values are below 0.05 we can assume that these results are statistically significant and reject the null hypothesis for both variables.  Since the results are statistically significant, we can assume that both median household income and have causal effects on the electability of election-denying candidates.  Taking a step back, my results show that an increase in median household income has a negative effect on the chances of election-denying candidates getting elected, and also that a decrease in extremity score (meaning that the candidate has more extreme views about the invalidity of the 2020 presidential election) has a negative effect on the election-denying candidate being elected.  Finally, I found that median household income was higher in districts where the election-denier lost the election.  
+
+
+```{r}
+income_box <- election_deniers|>
   group_by(result) |>
   ggplot(aes(x = result,
                     y = median_household_income)) +
@@ -33,22 +59,16 @@ graph <- election_deniers|>
        x = "Election Result",
        y = "Median Household Income")
 
-graph
-  
-  
-
+income_box
 ```
 ```{r}
 deniers_mean <- election_deniers |>
   group_by(result) |>
   summarize(mean_med_income = mean(median_household_income))
-deniers_mean
-```
-```{r}
-fit <- lm(win ~ median_income_k, data = election_deniers)
-fit
+knitr::kable(deniers_mean, col.names = c("Result", "Median Household Income"))
 ```
 
+## Conclusion
 
-The intercept means that if there were districts with no income, the Republican candidate would have a 95% chance of winning the election.  For every thousand dollar increase in household income, the odds that the Republican wins the election decreases by 0.5%, holding all other factors constant.  Since we are doing this analysis with a binary variable, we have a smaller difference in means. 
+I found that the median congressional district income is higher in districts where the election-denying candidate lost the election.  This result was consistent with my hypothesis.  In the regression, I found that for every one-unit increase in denial of the election, we see a 7.2% decrease in win percentage.  I also found that with every additional thousand dollars of household income in a district, the election-denying candidate becomes 0.5% less likely to win.  I believe that the analysis that I conducted supports my hypothesis that election-denying candidates are more likely to win in lower-income districts.  A limitation of this analysis is that some of the election-denying candidates got destroyed by large margins in their elections against prominent incumbents who had no real concern about losing their seat.  Additionally, a threat to inference might be that because some incumbents easily won elections, their wins could have skewed the data if they were in a very high or low-income district.  My analysis could have been improved if I had access to better data about the results of the elections, such as the percentage that the candidate won or lost.  This could have been very interesting to see the margins that candidates were winning by and the income levels of districts that had the biggest margins.  
 

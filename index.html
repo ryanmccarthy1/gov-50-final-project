@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["election_deniers.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["election_deniers.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-1-1.png","index_files/figure-html5/unnamed-chunk-2-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1473,6 +1473,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   <!--/radix_placeholder_distill-->
   <script src="index_files/header-attrs-2.17/header-attrs.js"></script>
+  <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+  <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
   <script src="index_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="index_files/popper-2.6.0/popper.min.js"></script>
   <link href="index_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1517,19 +1519,158 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>My original idea was not possible, so I decided to switch my final project to an analysis of election deniers and median income in their congressional district. I think this has the potential to be a very interesting final project because I actually have no idea what the outcome will be. Currently, I am deciding whether I should analyze districts that currently have election deniers in office, districts that have election deniers and districts that have election deniers who are likely to win, or all districts that have election deniers on the ballot. I think it might be more plausible to go with the second option of districts with current election deniers and deniers who are likely to win their election if they are not incumbents. Many districts will likely have deniers on the ballot but some may have non-existent chances against high-profile incumbents who will lose by many percentage points, negating the purpose of my analysis.</p>
-<h2 id="proposal">Proposal</h2>
-<p>Are election denying candidates more prevalent in high or low-income Congressional districts? In this project, I plan to examine the income levels of Congressional districts which have a candidate on the ballot who fully denied the 2020 election and has a higher than 70% chance of winning their 2022 midterm. I hypothesize that districts who have election deniers on the ballot will have lower median incomes relative to districts that do not have election-denying candidates. I expect that it is more likely for the districts with election deniers to have lower median incomes because President Trump targeted low-income, less educated areas during his campaigns which eventaully resulted in him being elected. My sample is comprised of Census data and 538 data. My explanatory variable is the median income of Congressional districts. The outcome variable is existance of an election denier candidate who is likely to win in 2022. This variable is coded as “Stance” and has six different stances: “Fully Denied”, “Raised Questions”, “Fully Accepted”, “Accepted with Reservations”, “Avoided Answering” and “No Comment”. For the sake of this study, I will only be using the candidates who “Fully Denied”. Once I have filtered the candidates who fully denied, I will have to filter again by Congressional race and likelihood to win. If I find that the average median income for districts with an election denier likely to win, this would provide support for my hypothesis. If I find that the average median income is higher in districts with an election denier candidate, this would not provide support for my hypothesis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span><span class='va'>election_deniers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"election_deniers.csv"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='va'>election_deniers</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span> <span class='op'>|&gt;</span></span>
+<span><span class='va'>election_deniers</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"election_deniers.csv"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>My original idea was not possible, so I decided to switch my final project to an analysis of election deniers and median income in their congressional district. My research question is are election-denying candidates more likely to win in high or low-income Congressional districts? This was a very interesting research question for me because I had no idea what the outcome of the analysis would be. My hypothesis is that election deniers are more likely to win in low-income districts as opposed to high-income districts. This analysis was very interesting to me because I was very unsure that there would be any sort of relationship between congressional district income and support for election-denying candidates.</p>
+<h2 id="data">Data</h2>
+<p>My data source for the project was a dataset that I found on 538 which included lots of information about the candidates, including what district they were running in and their stance on the validity of the 2020 presidential election. This dataset did not have information about district income so I had to find and manually input the median income for each congressional district. This took forever. Additionally, I coded in a variable of the extremity of election denying based on the information provided about each of the candidates in the dataset. The dependent variable for this experiment was whether the candidate won or lost and the independent variable was the median household income in the congressional district. The independent variable was measured by the 2021 American Community Survey in their yearly survey. The dependent variable was measured by me, as I manually input whether or not the candidate won their congressional race after the 2022 midterm elections.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>election_deniers</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>result <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/if_else.html'>if_else</a></span><span class='op'>(</span><span class='va'>win</span> <span class='op'>==</span> <span class='fl'>1</span>, <span class='st'>"Won"</span>, <span class='st'>"Lost"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>graph</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span><span class='op'>|&gt;</span></span>
+<span><span class='va'>dv_bar</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>election_deniers</span>, </span>
+<span>                 mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>result</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Result of Election"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Number of Election-Denying Candidates"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"How Many Election-Deniers Won Their Congressional Race?"</span><span class='op'>)</span></span>
+<span><span class='va'>dv_bar</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
+</div>
+<h2 id="results">Results</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>win</span> <span class='op'>~</span> <span class='va'>median_income_k</span> <span class='op'>+</span> <span class='va'>extremity</span>, data <span class='op'>=</span> <span class='va'>election_deniers</span><span class='op'>)</span></span>
+<span><span class='va'>fit</span></span></code></pre>
+</div>
+<pre><code>
+Call:
+lm(formula = win ~ median_income_k + extremity, data = election_deniers)
+
+Coefficients:
+    (Intercept)  median_income_k        extremity  
+       0.886023        -0.005228        -0.071715  </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'>modelsummary</span><span class='fu'>::</span><span class='fu'><a href='https://vincentarelbundock.github.io/modelsummary/reference/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>fit</span>,</span>
+<span>                           statistic <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"s.e. = {std.error}"</span>,</span>
+<span>                                         <span class='st'>"p = {p.value}"</span><span class='op'>)</span>,</span>
+<span>                           gof_map <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"nobs"</span>, <span class='st'>"r.squared"</span>, <span class='st'>"adj.r.squared"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+</th>
+<th style="text-align:center;">
+Model 1
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:center;">
+0.886
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.099
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+median_income_k
+</td>
+<td style="text-align:center;">
+−0.005
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+p = &lt;0.001
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+extremity
+</td>
+<td style="text-align:center;">
+−0.072
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+</td>
+<td style="text-align:center;">
+s.e. = 0.035
+</td>
+</tr>
+<tr>
+<td style="text-align:left;box-shadow: 0px 1px">
+</td>
+<td style="text-align:center;box-shadow: 0px 1px">
+p = 0.041
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Num.Obs.
+</td>
+<td style="text-align:center;">
+400
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2
+</td>
+<td style="text-align:center;">
+0.062
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R2 Adj.
+</td>
+<td style="text-align:center;">
+0.057
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The intercept of my regression is 0.886, meaning that the election-denying candidate would have a 88.6% chance of winning the election if the median household income in their district was $0 and they did had no comment on the results of the 2020 presidential election. From the regression, I found that for every thousand dollars of household income, the Republican candidate becomes 0.5% less likely to win the election. Additionally, for every one unit decrease in acceptance of the election, there was a 7.2% decrease in win percentage for the Republican candidates. The results of the regression give p-values of &lt;0.001 and 0.041 for the median income and extremity variables respectively. Since these p-values are below 0.05 we can assume that these results are statistically significant and reject the null hypothesis for both variables. Since the results are statistically significant, we can assume that both median household income and have causal effects on the electability of election-denying candidates. Taking a step back, my results show that an increase in median household income has a negative effect on the chances of election-denying candidates getting elected, and also that a decrease in extremity score (meaning that the candidate has more extreme views about the invalidity of the 2020 presidential election) has a negative effect on the election-denying candidate being elected. Finally, I found that median household income was higher in districts where the election-denier lost the election.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>income_box</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span><span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>result</span>,</span>
 <span>                    y <span class='op'>=</span> <span class='va'>median_household_income</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
@@ -1538,38 +1679,51 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>       x <span class='op'>=</span> <span class='st'>"Election Result"</span>,</span>
 <span>       y <span class='op'>=</span> <span class='st'>"Median Household Income"</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>graph</span></span></code></pre>
+<span><span class='va'>income_box</span></span></code></pre>
 </div>
-<p><img src="index_files/figure-html5/unnamed-chunk-1-1.png" width="624" /></p>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
 </div>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>deniers_mean</span> <span class='op'>&lt;-</span> <span class='va'>election_deniers</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>result</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>mean_med_income <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span><span class='op'>(</span><span class='va'>median_household_income</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='va'>deniers_mean</span></span></code></pre>
+<span><span class='fu'>knitr</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='va'>deniers_mean</span>, col.names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Result"</span>, <span class='st'>"Median Household Income"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
-<pre><code># A tibble: 2 × 2
-  result mean_med_income
-  &lt;chr&gt;            &lt;dbl&gt;
-1 Lost            77189.
-2 Won             68262.</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Result
+</th>
+<th style="text-align:right;">
+Median Household Income
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Lost
+</td>
+<td style="text-align:right;">
+77188.61
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Won
+</td>
+<td style="text-align:right;">
+68262.35
+</td>
+</tr>
+</tbody>
+</table>
 </div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>fit</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='va'>win</span> <span class='op'>~</span> <span class='va'>median_income_k</span>, data <span class='op'>=</span> <span class='va'>election_deniers</span><span class='op'>)</span></span>
-<span><span class='va'>fit</span></span></code></pre>
-</div>
-<pre><code>
-Call:
-lm(formula = win ~ median_income_k, data = election_deniers)
-
-Coefficients:
-    (Intercept)  median_income_k  
-       0.950704        -0.005871  </code></pre>
-</div>
-<p>The intercept means that if there were districts with no income, the Republican candidate would have a 95% chance of winning the election. For every thousand dollar increase in household income, the odds that the Republican wins the election decreases by 0.5%, holding all other factors constant. Since we are doing this analysis with a binary variable, we have a smaller difference in means.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>I found that the median congressional district income is higher in districts where the election-denying candidate lost the election. This result was consistent with my hypothesis. In the regression, I found that for every one-unit increase in denial of the election, we see a 7.2% decrease in win percentage. I also found that with every additional thousand dollars of household income in a district, the election-denying candidate becomes 0.5% less likely to win. I believe that the analysis that I conducted supports my hypothesis that election-denying candidates are more likely to win in lower-income districts. A limitation of this analysis is that some of the election-denying candidates got destroyed by large margins in their elections against prominent incumbents who had no real concern about losing their seat. Additionally, a threat to inference might be that because some incumbents easily won elections, their wins could have skewed the data if they were in a very high or low-income district. My analysis could have been improved if I had access to better data about the results of the elections, such as the percentage that the candidate won or lost. This could have been very interesting to see the margins that candidates were winning by and the income levels of districts that had the biggest margins.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
