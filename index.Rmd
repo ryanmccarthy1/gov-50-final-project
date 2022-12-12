@@ -19,7 +19,7 @@ My original idea was not possible, so I decided to switch my final project to an
 
 ## Data
 
-My data source for the project was a dataset that I found on 538 which included lots of information about the candidates, including what district they were running in and their stance on the validity of the 2020 presidential election.  This dataset did not have information about district income so I had to find and manually input the median income for each congressional district.  This took forever.  Additionally, I coded in a variable of the extremity of election denying based on the information provided about each of the candidates in the dataset.  The dependent variable for this experiment was whether the candidate won or lost and the independent variable was the median household income in the congressional district.  The independent variable was measured by the 2021 American Community Survey in their yearly survey.  The dependent variable was measured by me, as I manually input whether or not the candidate won their congressional race after the 2022 midterm elections.  
+My data source for the project was a dataset that I found on 538 which included lots of information about the candidates, including what district they were running in and their stance on the validity of the 2020 presidential election.  This dataset did not have information about district income so I had to find and manually input the median income for each congressional district.  This took forever.  Additionally, I coded in a variable of the extremity of election denying based on the information provided about each of the candidates in the dataset.  The extremity variable was coded on a scale of -1 to 1, with -1 being that the candidate fully denied the election and 1 meaning they fully accepted the election.  The dependent variable for this experiment was whether the candidate won or lost and the independent variable was the median household income in the congressional district.  The independent variable was measured by the 2021 American Community Survey in their yearly survey.  The dependent variable was measured by me, as I manually input whether or not the candidate won their congressional race after the 2022 midterm elections.  
 
 ```{r}
 election_deniers <- election_deniers |>
@@ -46,7 +46,22 @@ modelsummary::modelsummary(fit,
                            gof_map = c("nobs", "r.squared", "adj.r.squared"))
 ```
 
-The intercept of my regression is 0.886, meaning that the election-denying candidate would have a 88.6% chance of winning the election if the median household income in their district was $0 and they did had no comment on the results of the 2020 presidential election.  From the regression, I found that for every thousand dollars of household income, the Republican candidate becomes 0.5% less likely to win the election.  Additionally, for every one unit decrease in acceptance of the election, there was a 7.2% decrease in win percentage for the Republican candidates.  The results of the regression give p-values of <0.001 and 0.041 for the median income and extremity variables respectively.  Since these p-values are below 0.05 we can assume that these results are statistically significant and reject the null hypothesis for both variables.  Since the results are statistically significant, we can assume that both median household income and have causal effects on the electability of election-denying candidates.  Taking a step back, my results show that an increase in median household income has a negative effect on the chances of election-denying candidates getting elected, and also that a decrease in extremity score (meaning that the candidate has more extreme views about the invalidity of the 2020 presidential election) has a negative effect on the election-denying candidate being elected.  Finally, I found that median household income was higher in districts where the election-denier lost the election.  
+The intercept of my regression is 0.886, meaning that the election-denying candidate would have a 88.6% chance of winning the election if the median household income in their district was $0 and they did had no comment on the results of the 2020 presidential election.  From the regression, I found that for every thousand dollars of household income, the Republican candidate becomes 0.5% less likely to win the election.  Additionally, for every one unit decrease in acceptance of the election, there was a 7.2% decrease in win percentage for the Republican candidates.  The results of the regression give p-values of <0.001 and 0.041 for the median income and extremity variables respectively.  Since these p-values are below 0.05 we can assume that these results are statistically significant and reject the null hypothesis for both variables.  
+
+As someone who lives in a district with an average income of over 100k and who had an election denier as my Representative, I wanted to see how irregular this phenomenon was.  After running the data, I found that out of the 40 districts with incomes over $100k, election deniers won in only 12 of them, while they lost in 28 of those districts. 
+
+```{r}
+bigdollar_hist <- election_deniers |>
+  filter(median_income_k >= 100) |>
+  ggplot(mapping = aes(x = result)) +
+  geom_bar() +
+  labs(x = "Result of Election",
+       y = "Number of Election-Denying Candidates",
+       title = "How Many Election-Deniers Won in Districts With Incomes Over $100k?")
+bigdollar_hist
+```
+
+Since the results are statistically significant, we can assume that both median household income and have causal effects on the electability of election-denying candidates.  Taking a step back, my results show that an increase in median household income has a negative effect on the chances of election-denying candidates getting elected, and also that a decrease in extremity score (meaning that the candidate has more extreme views about the invalidity of the 2020 presidential election) has a negative effect on the election-denying candidate being elected.  Finally, I found that median household income was higher in districts where the election-denier lost the election.  
 
 
 ```{r}
@@ -67,6 +82,8 @@ deniers_mean <- election_deniers |>
   summarize(mean_med_income = mean(median_household_income))
 knitr::kable(deniers_mean, col.names = c("Result", "Median Household Income"))
 ```
+
+
 
 ## Conclusion
 
